@@ -90,7 +90,7 @@ export default function Home() {
         {/* Main content area - Responsive */}
         <div className="flex-1 flex overflow-hidden lg:flex-row flex-col">
           {/* Middle section - 40% on desktop, full on mobile */}
-          <div className="w-full lg:w-[40%] flex flex-col border-r border-b lg:border-b-0 border-border/50 overflow-hidden">
+          <div className="w-full lg:w-[40%] flex flex-col border-r border-b lg:border-b-0 border-border/40 overflow-hidden">
             <InputArea onRun={handleRun} isRunning={isRunning} />
           </div>
           {/* Right section - 60% on desktop, full on mobile */}
