@@ -1,12 +1,12 @@
 'use client'
-import { Send, Zap, Brain, Gauge } from 'lucide-react'
+import { Send, Brain, Zap, Gauge } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { MODEL_PERSONAS, type TaskType } from '@/lib/engine'
 
 const models = [
-  { key: 'gpt4', icon: Brain, color: 'bg-primary/12 text-primary border-primary/35' },
+  { key: 'gpt4', icon: Brain, color: 'bg-primary/10 text-primary border-primary/25' },
   { key: 'claude', icon: Zap, color: 'bg-muted text-foreground border-border' },
   { key: 'gemini', icon: Gauge, color: 'bg-muted/70 text-muted-foreground border-border' },
   { key: 'llama', icon: Brain, color: 'bg-muted/70 text-muted-foreground border-border' },
@@ -41,7 +41,7 @@ export default function InputArea({ onRun, isRunning }: InputAreaProps) {
             <Button
               key={model.key}
               variant="outline"
-              className={`flex items-center gap-2 text-xs ${model.color}`}
+              className={`flex items-center gap-2 text-xs rounded-xl ${model.color}`}
             >
               <model.icon className="w-3.5 h-3.5" />
               {MODEL_PERSONAS[model.key].name}
@@ -59,7 +59,7 @@ export default function InputArea({ onRun, isRunning }: InputAreaProps) {
             <Button
               key={type}
               variant={taskType === type ? 'default' : 'outline'}
-              className="text-xs capitalize"
+              className="text-xs capitalize rounded-xl"
               onClick={() => setTaskType(type)}
             >
               {type}
@@ -68,9 +68,9 @@ export default function InputArea({ onRun, isRunning }: InputAreaProps) {
         </div>
       </div>
 
-      {/* Input Area - ChatGPT Style */}
+      {/* Input Area */}
       <div className="flex-1 flex flex-col justify-end gap-2">
-        <div className="surface-subpanel hover:border-border/90 focus-within:border-primary/50 transition-colors p-4 flex flex-col gap-3">
+        <div className="surface-subpanel hover:border-primary/20 focus-within:border-primary/30 focus-within:shadow-lg focus-within:shadow-primary/[0.04] transition-all duration-200 p-4 flex flex-col gap-3">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -85,14 +85,22 @@ export default function InputArea({ onRun, isRunning }: InputAreaProps) {
             className="resize-none"
             disabled={isRunning}
           />
-          <div className="flex items-center justify-between pt-3 border-t border-border/50">
-            <p className="text-xs text-muted-foreground">Shift + Enter for new line</p>
+          <div className="flex items-center justify-between pt-3 border-t border-border/40">
+            <p className="text-xs text-muted-foreground/60">Shift + Enter for new line</p>
             <Button
               size="sm"
+              className="rounded-xl"
               onClick={() => void handleSend()}
               disabled={!input.trim() || isRunning}
             >
-              {isRunning ? 'Running...' : <Send className="w-4 h-4" />}
+              {isRunning ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-3.5 h-3.5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                  <span>Running...</span>
+                </div>
+              ) : (
+                <Send className="w-4 h-4" />
+              )}
             </Button>
           </div>
         </div>

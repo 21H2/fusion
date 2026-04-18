@@ -12,42 +12,42 @@ export default function Header() {
   }
 
   return (
-    <header className="h-16 border-b border-border/90 bg-card flex items-center justify-between px-6 gap-4">
+    <header className="h-14 border-b border-border/40 bg-card/50 backdrop-blur-sm flex items-center justify-between px-6 gap-4">
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-sm">
-        <Button variant="ghost" className="text-sidebar-foreground hover:text-foreground font-medium h-auto p-0">
+        <Button variant="ghost" className="text-foreground hover:text-foreground font-medium h-auto p-0 text-[13px]">
           Responses
         </Button>
-        <ChevronRight className="w-4 h-4 text-muted-foreground" />
-        <Button variant="ghost" className="text-muted-foreground hover:text-foreground h-auto p-0">
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/40" />
+        <Button variant="ghost" className="text-muted-foreground hover:text-foreground h-auto p-0 text-[13px]">
           New Fusion Session
         </Button>
       </div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-3 ml-auto">
+      <div className="flex items-center gap-2.5 ml-auto">
         <div className="relative hidden md:flex">
           <Input
             type="text"
             placeholder="Search models..."
-            className="text-xs pl-3 pr-8"
+            className="text-xs pl-3 pr-8 rounded-xl h-8 bg-muted/40 border-border/50 focus:border-primary/30"
           />
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground/40" />
         </div>
         
-        <Button variant="ghost" size="icon" className="text-foreground relative">
+        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground relative w-8 h-8 rounded-xl">
           <Bell className="w-4 h-4" />
           <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-primary" />
         </Button>
 
-        <div className="h-6 w-px bg-border" />
+        <div className="h-5 w-px bg-border/50" />
 
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleDarkMode}
           aria-label="Toggle dark mode"
-          className="text-foreground"
+          className="text-muted-foreground hover:text-foreground w-8 h-8 rounded-xl"
         >
           {resolvedTheme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </Button>
