@@ -1,23 +1,15 @@
 'use client'
 import { ChevronRight, Search, Bell, Moon, Sun } from 'lucide-react'
-import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 export default function Header() {
   const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const toggleDarkMode = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
-
-  if (!mounted) return null
 
   return (
     <header className="h-16 border-b border-border/90 bg-card flex items-center justify-between px-6 gap-4">

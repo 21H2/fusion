@@ -1,20 +1,45 @@
 "use client"
 
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Sidebar from '@/components/sidebar'
 import Header from '@/components/header'
 import InputArea from '@/components/input-area'
 import StatsPanel from '@/components/stats-panel'
 import {
-  Engine,
-  MODEL_PERSONAS,
-  type ModelKey,
   type ResponsesByModel,
   type ScoresByModel,
   type TaskType,
 } from '@/lib/engine'
 
-const MODEL_KEYS = Object.keys(MODEL_PERSONAS) as ModelKey[]
+type CompareApiResult = {
+  responses: ResponsesByModel
+  scores: ScoresByModel
+  synthesizedAnswer: string
+  topModel: string
+  confidence: number
+}
+
+type HistoryItem = {
+  id: string
+  createdAt: string
+  query: string
+  taskType: TaskType
+  topModel: string
+  confidence: number
+}
+
+type StreamEventPayloads = {
+  model_response: {
+    modelKey: keyof ResponsesByModel
+    response: string
+  }
+  model_score: {
+    modelKey: keyof ScoresByModel
+    score: ScoresByModel[keyof ScoresByModel]
+  }
+  final: CompareApiResult
+  error: { message: string }
+}
 
 export default function Home() {
   const [query, setQuery] = useState('')
@@ -26,6 +51,24 @@ export default function Home() {
   const [confidence, setConfidence] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [historyItems, setHistoryItems] = useState<HistoryItem[]>([])
+
+  const loadHistory = useCallback(async () => {
+    try {
+      const response = await fetch('/api/history?limit=12', { cache: 'no-store' })
+      if (!response.ok) return
+      const data = (await response.json()) as { items: HistoryItem[] }
+      setHistoryItems(data.items || [])
+    } catch {
+      // Ignore polling errors to avoid interrupting compare flow.
+    }
+  }, [])
+
+  useEffect(() => {
+    loadHistory()
+    const id = window.setInterval(loadHistory, 7000)
+    return () => window.clearInterval(id)
+  }, [loadHistory])
 
   const handleRun = async (nextQuery: string, nextTaskType: TaskType) => {
     const trimmedQuery = nextQuery.trim()
@@ -35,42 +78,94 @@ export default function Home() {
     setError(null)
     setQuery(trimmedQuery)
     setTaskType(nextTaskType)
+    setResponses(null)
+    setScores(null)
+    setSynthesizedAnswer('Streaming model responses...')
+    setTopModel('N/A')
+    setConfidence(0)
 
     try {
-      const responseEntries = await Promise.all(
-        MODEL_KEYS.map(async (modelKey) => {
-          const response = await Engine.getModelResponse(modelKey, trimmedQuery, nextTaskType)
-          return [modelKey, response] as const
-        })
-      )
-      const nextResponses = Object.fromEntries(responseEntries) as ResponsesByModel
+      const response = await fetch('/api/compare/stream', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: trimmedQuery,
+          taskType: nextTaskType,
+        }),
+      })
 
-      const scoreEntries = await Promise.all(
-        MODEL_KEYS.map(async (modelKey) => {
-          const score = await Engine.scoreResponse(modelKey, nextResponses[modelKey], trimmedQuery, nextTaskType)
-          return [modelKey, score] as const
-        })
-      )
-      const nextScores = Object.fromEntries(scoreEntries) as ScoresByModel
+      if (!response.ok) {
+        throw new Error('Request failed')
+      }
 
-      Engine.addConsensusScores(nextScores, nextResponses, nextTaskType)
+      if (!response.body) {
+        throw new Error('Stream unavailable')
+      }
 
-      const synthesis = await Engine.synthesize(trimmedQuery, nextResponses, nextScores, nextTaskType)
-      const ranked = MODEL_KEYS
-        .map((modelKey) => ({
-          modelKey,
-          score: nextScores[modelKey]._overall || Engine.computeOverallScore(nextScores[modelKey], nextTaskType),
-        }))
-        .sort((a, b) => b.score - a.score)
-      const winner = ranked[0]
-      const nextConfidence = Engine.computeConfidence(nextScores)
+      const decoder = new TextDecoder()
+      const reader = response.body.getReader()
+      let buffer = ''
+      let eventName = ''
 
-      setResponses(nextResponses)
-      setScores(nextScores)
-      setSynthesizedAnswer(synthesis)
-      setTopModel(MODEL_PERSONAS[winner.modelKey].name)
-      setConfidence(nextConfidence)
-      Engine.addToHistory(trimmedQuery, nextTaskType, MODEL_PERSONAS[winner.modelKey].name, nextConfidence)
+      const partialResponses: Partial<ResponsesByModel> = {}
+      const partialScores: Partial<ScoresByModel> = {}
+
+      while (true) {
+        const { value, done } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const chunks = buffer.split('\n\n')
+        buffer = chunks.pop() || ''
+
+        for (const chunk of chunks) {
+          const lines = chunk.split('\n')
+          let data = ''
+          eventName = ''
+
+          for (const line of lines) {
+            if (line.startsWith('event:')) {
+              eventName = line.replace('event:', '').trim()
+            } else if (line.startsWith('data:')) {
+              data += line.replace('data:', '').trim()
+            }
+          }
+
+          if (!eventName || !data) continue
+
+          if (eventName === 'model_response') {
+            const payload = JSON.parse(data) as StreamEventPayloads['model_response']
+            partialResponses[payload.modelKey] = payload.response
+            setResponses({ ...partialResponses } as ResponsesByModel)
+            continue
+          }
+
+          if (eventName === 'model_score') {
+            const payload = JSON.parse(data) as StreamEventPayloads['model_score']
+            partialScores[payload.modelKey] = payload.score
+            setScores({ ...partialScores } as ScoresByModel)
+            continue
+          }
+
+          if (eventName === 'final') {
+            const payload = JSON.parse(data) as StreamEventPayloads['final']
+            setResponses(payload.responses)
+            setScores(payload.scores)
+            setSynthesizedAnswer(payload.synthesizedAnswer)
+            setTopModel(payload.topModel)
+            setConfidence(payload.confidence)
+            loadHistory()
+            continue
+          }
+
+          if (eventName === 'error') {
+            const payload = JSON.parse(data) as StreamEventPayloads['error']
+            throw new Error(payload.message)
+          }
+        }
+      }
     } catch {
       setError('Failed to run the comparison engine. Please try again.')
     } finally {
@@ -106,6 +201,7 @@ export default function Home() {
               responseCount={responseCount}
               isRunning={isRunning}
               error={error}
+              historyItems={historyItems}
             />
           </div>
         </div>
