@@ -9,6 +9,18 @@ next.user-config.*
 
 # Environment variables
 .env*.local
+.env
+.env.*
+!.env.example
+
+# Secret and key material
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+secrets.*
+*.secret
 
 # Common ignores
 node_modules

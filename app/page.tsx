@@ -16,6 +16,33 @@ import {
 
 const MODEL_KEYS = Object.keys(MODEL_PERSONAS) as ModelKey[]
 
+async function getResponseForModel(modelKey: ModelKey, query: string, taskType: TaskType) {
+  if (modelKey !== 'gemini' && modelKey !== 'gpt4' && modelKey !== 'claude' && modelKey !== 'llama') {
+    return Engine.getModelResponse(modelKey, query, taskType)
+  }
+
+  try {
+    const result = await fetch('/api/openai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, taskType, modelKey }),
+    })
+
+    if (!result.ok) {
+      throw new Error(`${modelKey} request failed`)
+    }
+
+    const data = (await result.json()) as { response?: string }
+    if (!data.response) {
+      throw new Error(`${modelKey} returned no response`)
+    }
+
+    return data.response
+  } catch {
+    return Engine.getModelResponse(modelKey, query, taskType)
+  }
+}
+
 export default function Home() {
   const [query, setQuery] = useState('')
   const [taskType, setTaskType] = useState<TaskType>('general')
@@ -39,7 +66,7 @@ export default function Home() {
     try {
       const responseEntries = await Promise.all(
         MODEL_KEYS.map(async (modelKey) => {
-          const response = await Engine.getModelResponse(modelKey, trimmedQuery, nextTaskType)
+          const response = await getResponseForModel(modelKey, trimmedQuery, nextTaskType)
           return [modelKey, response] as const
         })
       )
