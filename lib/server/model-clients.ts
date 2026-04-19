@@ -34,179 +34,79 @@ function withTaskInstruction(query: string, taskType: TaskType) {
   return `You are one model in a response comparator. ${taskInstruction}\n\nUser query: ${query}`
 }
 
-async function callOpenAI(query: string, taskType: TaskType) {
-  const key = process.env.OPENAI_API_KEY
-  if (!key) return null
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: MODEL_CONFIG.gpt4.model,
-      temperature: MODEL_CONFIG.gpt4.temperature,
-      messages: [
-        {
-          role: 'system',
-          content: 'Provide a concise, factual response with explicit assumptions and no fabricated citations.',
-        },
-        {
-          role: 'user',
-          content: withTaskInstruction(query, taskType),
-        },
-      ],
-    }),
-  })
-
-  if (!response.ok) return null
-  const json = await response.json()
-  const text = json?.choices?.[0]?.message?.content?.trim()
-  if (!text) return null
-  const tokensUsed = Number(json?.usage?.total_tokens ?? 0)
-  return { text, tokensUsed }
+export const OPENROUTER_MODEL_MAP: Record<ModelKey, string> = {
+  gpt4: 'openai/gpt-4-turbo',
+  claude: 'anthropic/claude-opus-4',
+  gemini: 'google/gemini-2.5-pro',
+  llama: 'meta-llama/llama-3.1-70b-instruct',
 }
 
-async function callAnthropic(query: string, taskType: TaskType) {
-  const key = process.env.ANTHROPIC_API_KEY
-  if (!key) return null
+async function callOpenRouter(modelKey: ModelKey, query: string, taskType: TaskType) {
+  if (!OPENROUTER_API_KEY) return null
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: MODEL_CONFIG.claude.model,
-      max_tokens: 700,
-      temperature: MODEL_CONFIG.claude.temperature,
-      system: 'Provide a balanced response with uncertainty markers for unverified claims.',
-      messages: [
-        {
-          role: 'user',
-          content: withTaskInstruction(query, taskType),
-        },
-      ],
-    }),
-  })
-
-  if (!response.ok) return null
-  const json = await response.json()
-  const text = json?.content?.[0]?.text?.trim()
-  if (!text) return null
-  const inputTokens = Number(json?.usage?.input_tokens ?? 0)
-  const outputTokens = Number(json?.usage?.output_tokens ?? 0)
-  return {
-    text,
-    tokensUsed: inputTokens + outputTokens,
-  }
-}
-
-async function callGemini(query: string, taskType: TaskType) {
-  const key = process.env.GOOGLE_API_KEY
-  if (!key) return null
-
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_CONFIG.gemini.model}:generateContent?key=${key}`
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      generationConfig: {
-        temperature: MODEL_CONFIG.gemini.temperature,
-        maxOutputTokens: 700,
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://fusion.ai',
+        'X-Title': 'Fusion AI',
       },
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: withTaskInstruction(query, taskType),
-            },
-          ],
-        },
-      ],
-    }),
-  })
+        body: JSON.stringify({
+        model: OPENROUTER_MODEL_MAP[modelKey],
+        max_tokens: 512,
+        messages: [
+          {
+            role: 'system',
+            content: 'Provide a concise, factual response. Avoid preamble. Focus on accuracy.',
+          },
+          {
+            role: 'user',
+            content: withTaskInstruction(query, taskType),
+          },
+        ],
+        temperature: 0.2,
+      }),
+    })
 
-  if (!response.ok) return null
-  const json = await response.json()
-  const text = json?.candidates?.[0]?.content?.parts?.[0]?.text?.trim()
-  if (!text) return null
-  const tokensUsed = Number(
-    json?.usageMetadata?.totalTokenCount ??
-      (Number(json?.usageMetadata?.promptTokenCount ?? 0) + Number(json?.usageMetadata?.candidatesTokenCount ?? 0))
-  )
-  return { text, tokensUsed }
-}
+    if (!response.ok) {
+      console.warn(`[model-clients] OpenRouter failed for ${modelKey}: ${response.status} ${response.statusText}`)
+      return null
+    }
 
-async function callGroq(query: string, taskType: TaskType) {
-  const key = process.env.GROQ_API_KEY
-  if (!key) return null
-
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: MODEL_CONFIG.llama.model,
-      temperature: MODEL_CONFIG.llama.temperature,
-      messages: [
-        {
-          role: 'system',
-          content: 'Respond in a practical tone, avoid unsupported claims, and structure output clearly.',
-        },
-        {
-          role: 'user',
-          content: withTaskInstruction(query, taskType),
-        },
-      ],
-    }),
-  })
-
-  if (!response.ok) return null
-  const json = await response.json()
-  const text = json?.choices?.[0]?.message?.content?.trim()
-  if (!text) return null
-  const tokensUsed = Number(json?.usage?.total_tokens ?? 0)
-  return { text, tokensUsed }
+    const json = await response.json()
+    const text = json?.choices?.[0]?.message?.content?.trim()
+    if (!text) return null
+    
+    const tokensUsed = Number(json?.usage?.total_tokens ?? 0)
+    return { text, tokensUsed }
+  } catch (err) {
+    console.error(`[model-clients] Error calling OpenRouter for ${modelKey}:`, err)
+    return null
+  }
 }
 
 export async function getModelResponseWithTelemetry(modelKey: ModelKey, query: string, taskType: TaskType): Promise<ModelResponseTelemetry> {
   const start = Date.now()
 
-  try {
-    const external =
-      modelKey === 'gpt4'
-        ? await callOpenAI(query, taskType)
-        : modelKey === 'claude'
-          ? await callAnthropic(query, taskType)
-          : modelKey === 'gemini'
-            ? await callGemini(query, taskType)
-            : await callGroq(query, taskType)
-
-    if (external && external.text.length > 0) {
-      return {
-        text: external.text,
-        tokensUsed: Number.isFinite(external.tokensUsed) ? external.tokensUsed : 0,
-        latencyMs: Date.now() - start,
-        provider: modelKey === 'gpt4' ? 'openai' : modelKey === 'claude' ? 'anthropic' : modelKey === 'gemini' ? 'google' : 'groq',
-        source: 'api',
-      }
+  const external = await callOpenRouter(modelKey, query, taskType)
+  
+  if (external && external.text.length > 0) {
+    return {
+      text: external.text,
+      tokensUsed: Number.isFinite(external.tokensUsed) ? external.tokensUsed : 0,
+      latencyMs: Date.now() - start,
+      provider: 'groq', // Keep original for now to avoid breaking stats mapping if it exists
+      source: 'api',
     }
-  } catch {
-    // Fall through to local response when provider is unavailable.
   }
 
   const fallback = await Engine.getModelResponse(modelKey, query, taskType)
   return {
-    text: `${fallback}\n\n[Fallback mode] ${MODEL_PERSONAS[modelKey].name} credentials unavailable or request failed.`,
+    text: `${fallback}\n\n[Fallback mode] OpenRouter request failed or key missing.`,
     tokensUsed: 0,
     latencyMs: Date.now() - start,
     provider: 'local-fallback',

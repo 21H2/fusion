@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase'
-import type { ModelKey, ScoresByModel, TaskType } from '@/lib/engine'
+import type { ModelKey, ScoresByModel, TaskType, ResponsesByModel } from '@/lib/engine'
 import { getSupabaseAdmin } from '@/lib/server/supabase'
 import path from 'path'
 import { mkdir, readFile, writeFile } from 'fs/promises'
@@ -36,12 +36,13 @@ export type HistoryEntry = {
   createdAt: string
   userEmail?: string
   query: string
-  task_type: TaskType
-  top_model: string
+  taskType: TaskType
+  topModel: string
   confidence: number
-  synthesized_answer: string
-  responses: ResponsesByModel
+  synthesizedAnswer: string
+  responses?: ResponsesByModel
   scores: ScoresByModel
+  ranking?: HistoryRankingItem[]
   benchmark: HistoryBenchmark
 }
 
@@ -74,6 +75,10 @@ export type BenchmarkHistoryPoint = {
   totalLatencyMs: number
 }
 
+type HistoryDb = {
+  items: HistoryEntry[]
+}
+
 
 type SupabaseHistoryRow = {
   id: string
@@ -85,6 +90,7 @@ type SupabaseHistoryRow = {
   confidence: number
   synthesized_answer: string
   ranking: HistoryRankingItem[]
+  responses: ResponsesByModel
   scores: ScoresByModel
   benchmark: HistoryBenchmark | null
 }
@@ -124,6 +130,7 @@ function mapSupabaseHistoryRow(row: SupabaseHistoryRow): HistoryEntry {
     confidence: row.confidence,
     synthesizedAnswer: row.synthesized_answer,
     ranking: row.ranking,
+    responses: row.responses,
     scores: row.scores,
     benchmark: row.benchmark ?? getFallbackBenchmark(row.task_type),
   }
@@ -188,6 +195,7 @@ export async function addHistoryEntry(entry: Omit<HistoryEntry, 'id' | 'createdA
       confidence: entry.confidence,
       synthesized_answer: entry.synthesizedAnswer,
       ranking: entry.ranking,
+      responses: entry.responses,
       scores: entry.scores,
       benchmark: entry.benchmark,
     }
@@ -195,7 +203,7 @@ export async function addHistoryEntry(entry: Omit<HistoryEntry, 'id' | 'createdA
     const { data, error } = await supabase
       .from('fusion_history')
       .insert(payload)
-      .select('id, created_at, user_email, query, task_type, top_model, confidence, synthesized_answer, ranking, scores, benchmark')
+      .select('id, created_at, user_email, query, task_type, top_model, confidence, synthesized_answer, ranking, responses, scores, benchmark')
       .single()
 
     if (!error && data) {
@@ -227,7 +235,7 @@ export async function getHistory(limit = 20, userEmail?: string) {
   if (supabase && userEmail) {
     const { data, error } = await supabase
       .from('fusion_history')
-      .select('id, created_at, user_email, query, task_type, top_model, confidence, synthesized_answer, ranking, scores, benchmark')
+      .select('id, created_at, user_email, query, task_type, top_model, confidence, synthesized_answer, ranking, responses, scores, benchmark')
       .eq('user_email', userEmail)
       .order('created_at', { ascending: false })
       .limit(safeLimit)
@@ -250,7 +258,7 @@ export async function getAllHistory(userEmail?: string) {
   if (supabase && userEmail) {
     const { data, error } = await supabase
       .from('fusion_history')
-      .select('id, created_at, user_email, query, task_type, top_model, confidence, synthesized_answer, ranking, scores, benchmark')
+      .select('id, created_at, user_email, query, task_type, top_model, confidence, synthesized_answer, ranking, responses, scores, benchmark')
       .eq('user_email', userEmail)
       .order('created_at', { ascending: false })
 

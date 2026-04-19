@@ -1,23 +1,13 @@
 // app/api/query/route.ts
 // ─── Unified OpenRouter proxy — single route for all 4 models ─────
 
-import { OpenRouter } from "@openrouter/sdk";
 import { NextRequest, NextResponse } from "next/server";
-import type { ModelId, TaskProfile } from "@/lib/types";
 import { auth } from '@/auth'
 import { logBackendEvent } from '@/lib/server/event-log'
 
-// ─── OpenRouter model identifiers ─────────────────────────────────
-const OPENROUTER_MODELS: Record<ModelId, string> = {
-  "gpt-4o": "openai/gpt-4o",
-  "claude-3-5-sonnet": "anthropic/claude-sonnet-3.5",
-  "gemini-2-5-pro": "google/gemini-2.5-pro",
-  "llama-3": "meta-llama/llama-3.1-8b-instruct",
-};
-
 // ─── Task-specific system prompts ─────────────────────────────────
-function systemPromptForTask(task: TaskProfile): string {
-  const prompts: Record<TaskProfile, string> = {
+function systemPromptForTask(task: string): string {
+  const prompts: Record<string, string> = {
     general:
       "You are a helpful, accurate, and concise assistant.",
     coding:
@@ -29,13 +19,32 @@ function systemPromptForTask(task: TaskProfile): string {
     creative:
       "You are a creative writer. Be imaginative, original, and expressive.",
   };
-  return prompts[task];
+  return prompts[task] || prompts.general;
 }
 
+/** Align HTTP status with OpenRouter so clients see 402/400 instead of a generic 500. */
+function statusFromOpenRouter(upstream: number): number {
+  if ([400, 401, 402, 404, 413, 429].includes(upstream)) return upstream;
+  if (upstream >= 500) return 502;
+  return 502;
+}
+
+function formatOpenRouterError(upstreamStatus: number, body: string): string {
+  try {
+    const parsed = JSON.parse(body) as { error?: { message?: string } };
+    const msg = parsed?.error?.message;
+    if (typeof msg === "string" && msg.trim()) return msg.trim();
+  } catch {
+    /* use fallback */
+  }
+  return `OpenRouter request failed (${upstreamStatus})`;
+}
 
 export async function POST(req: NextRequest) {
   const session = await auth()
-  if (!session?.user) {
+  
+  // Allow development mode or any authenticated session
+  if (!session?.user && process.env.NODE_ENV !== 'development') {
     await logBackendEvent({
       eventType: 'query_unauthorized',
       route: '/api/query',
@@ -52,10 +61,10 @@ export async function POST(req: NextRequest) {
     modelId,
     prompt,
     taskProfile,
-  }: { modelId: ModelId; prompt: string; taskProfile: TaskProfile } =
+  }: { modelId: string; prompt: string; taskProfile: string } =
     await req.json();
 
-  const userEmail = session.user.email?.trim().toLowerCase()
+  const userEmail = session?.user?.email?.trim().toLowerCase() ?? 'guest@fusion.ai'
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
@@ -72,12 +81,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const openrouter = new OpenRouter({
-    apiKey: apiKey,
-  });
-
-  const openRouterModel = OPENROUTER_MODELS[modelId];
-  if (!openRouterModel) {
+  if (!modelId) {
     await logBackendEvent({
       userEmail,
       eventType: 'query_invalid_model',
@@ -87,7 +91,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(
-      { error: `Unknown modelId: ${modelId}` },
+      { error: `modelId is required` },
       { status: 400 }
     );
   }
@@ -95,19 +99,57 @@ export async function POST(req: NextRequest) {
   const start = Date.now();
 
   try {
-    const response = await openrouter.chat.send({
-      chatRequest: {
-        model: openRouterModel,
-        maxTokens: 1024,
-        messages: [
-          { role: "system", content: systemPromptForTask(taskProfile) },
-          { role: "user", content: prompt },
-        ],
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://fusion.ai',
+        'X-Title': 'Fusion AI',
       },
-    });
+      body: JSON.stringify({
+        model: modelId,
+        max_tokens: 512,
+        messages: [
+          { role: 'system', content: systemPromptForTask(taskProfile) },
+          { role: 'user', content: prompt },
+        ],
+      }),
+    })
 
-    const content = response.choices[0]?.message?.content ?? "";
-    const tokensUsed = response.usage?.totalTokens ?? 0;
+    if (!response.ok) {
+      const errorText = await response.text()
+      const message = formatOpenRouterError(response.status, errorText)
+      const statusOut = statusFromOpenRouter(response.status)
+
+      await logBackendEvent({
+        userEmail,
+        eventType: 'query_failed',
+        route: '/api/query',
+        statusCode: statusOut,
+        metadata: {
+          modelId,
+          taskProfile,
+          message,
+          openRouterStatus: response.status,
+        },
+      })
+
+      return NextResponse.json(
+        {
+          modelId,
+          content: message,
+          tokensUsed: 0,
+          latencyMs: Date.now() - start,
+          error: message,
+        },
+        { status: statusOut }
+      )
+    }
+
+    const json = await response.json()
+    const content = json.choices[0]?.message?.content ?? ""
+    const tokensUsed = json.usage?.total_tokens ?? 0
 
     await logBackendEvent({
       userEmail,
@@ -129,6 +171,7 @@ export async function POST(req: NextRequest) {
       latencyMs: Date.now() - start,
     });
   } catch (err: unknown) {
+    console.error('[query] error:', err)
     await logBackendEvent({
       userEmail,
       eventType: 'query_failed',
@@ -144,7 +187,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         modelId,
-        content: "",
+        content: `Error: ${err instanceof Error ? err.message : 'Unknown error'}`,
         tokensUsed: 0,
         latencyMs: Date.now() - start,
         error: err instanceof Error ? err.message : "Unknown error",

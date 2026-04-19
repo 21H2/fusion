@@ -38,7 +38,7 @@ export default function HistoryModal({ open, onOpenChange, onSelect }: Props) {
 
   const filtered = history.filter(h => 
     h.query.toLowerCase().includes(search.toLowerCase()) ||
-    h.top_model.toLowerCase().includes(search.toLowerCase())
+    h.topModel.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -95,10 +95,10 @@ export default function HistoryModal({ open, onOpenChange, onSelect }: Props) {
                   </p>
                   <div className="flex items-center gap-x-3 gap-y-1 flex-wrap">
                     <span className="text-[10px] font-bold text-primary uppercase tracking-widest bg-primary/10 px-1.5 py-0.5 rounded">
-                      {entry.top_model}
+                      {entry.topModel}
                     </span>
                     <span className="text-[10px] text-muted-foreground font-medium">
-                      {new Date(entry.created_at).toLocaleDateString()} at {new Date(entry.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(entry.createdAt).toLocaleDateString()} at {new Date(entry.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                     <span className="text-[10px] text-muted-foreground/60">
                       Reliability: {entry.confidence}%

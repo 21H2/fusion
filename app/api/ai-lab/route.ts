@@ -1,4 +1,3 @@
-import { OpenRouter } from "@openrouter/sdk";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -9,8 +8,6 @@ export async function POST(req: NextRequest) {
     if (!apiKey) {
       return NextResponse.json({ error: "API key not set" }, { status: 500 });
     }
-
-    const openrouter = new OpenRouter({ apiKey });
 
     const systemPrompt = `You are the AI Lab Engine inside Fusion.
 Your role is to help developers understand, analyze, and optimize their use of large language models.
@@ -79,25 +76,42 @@ Return ONLY valid JSON matching this exact structure, with no markdown fences or
 MODEL RESPONSES: ${JSON.stringify(responses)}
 SCORES: ${JSON.stringify(scores)}`;
 
-    const response = await openrouter.chat.send({
-      chatRequest: {
-        model: "openai/gpt-4o",
-        response_format: { type: "json_object" }, // Attempt to force JSON if supported by OR
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userMessage }
-        ],
-        maxTokens: 500,
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://fusion.ai',
+        'X-Title': 'Fusion AI',
       },
-    });
+      body: JSON.stringify({
+        model: 'openai/gpt-4o',
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userMessage }
+        ],
+        max_tokens: 1500, // Analysis can be long
+        temperature: 0.2,
+      }),
+    })
 
-    const text = response.choices[0]?.message?.content ?? "{}";
-    const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
-    const analysis = JSON.parse(cleaned);
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw new Error(`OpenRouter API failed: ${response.status} ${errorText}`)
+    }
 
-    return NextResponse.json({ analysis });
+    const json = await response.json()
+    const text = json.choices[0]?.message?.content ?? "{}"
+    const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim()
+    const analysis = JSON.parse(cleaned)
+
+    return NextResponse.json({ analysis })
   } catch (err) {
-    console.error("AI Lab Error:", err);
-    return NextResponse.json({ error: err instanceof Error ? err.message : "Internal error" }, { status: 500 });
+    console.error("AI Lab Error:", err)
+    return NextResponse.json({ 
+      error: err instanceof Error ? err.message : "Internal error",
+      analysis: null 
+    }, { status: 500 })
   }
 }

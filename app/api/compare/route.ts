@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
   try {
     const session = await auth()
-    if (!session?.user) {
+    if (!session?.user && process.env.NODE_ENV !== 'development') {
       await logBackendEvent({
         eventType: 'compare_unauthorized',
         route: '/api/compare',
@@ -34,25 +34,28 @@ export async function POST(request: Request) {
       )
     }
 
-    userEmail = session.user.email?.trim().toLowerCase()
-    if (!userEmail) {
-      await logBackendEvent({
-        eventType: 'compare_missing_email',
-        route: '/api/compare',
-        statusCode: 400,
-      })
+    userEmail = session?.user?.email?.trim().toLowerCase() ?? 'guest@fusion.ai'
+    if (!userEmail || userEmail === 'guest@fusion.ai') {
+      // Allow guest email for development
+      if (process.env.NODE_ENV !== 'development') {
+        await logBackendEvent({
+          eventType: 'compare_missing_email',
+          route: '/api/compare',
+          statusCode: 400,
+        })
 
-      return NextResponse.json(
-        {
-          error: 'Your Google account did not provide an email address.',
-        },
-        { status: 400 }
-      )
+        return NextResponse.json(
+          {
+            error: 'Your Google account did not provide an email address.',
+          },
+          { status: 400 }
+        )
+      }
     }
 
     await upsertUserDetails(userEmail, {
-      name: session.user.name,
-      image: session.user.image,
+      name: session?.user?.name,
+      image: session?.user?.image,
     })
 
     const body = await request.json()

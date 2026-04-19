@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
 
 type AppPhase = 'landing' | 'dashboard' | 'ailab' | 'settings' | 'profile'
 
@@ -32,6 +33,8 @@ export default function Sidebar({
   onProfileClick?: () => void
   activePhase?: AppPhase
 }) {
+  const { data: session } = useSession()
+  const user = session?.user
   const [isExpanded, setIsExpanded] = useState(false)
 
   const labelClass = `overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out ${isExpanded ? 'max-w-[140px] opacity-100 ml-3 visible' : 'max-w-0 opacity-0 ml-0 invisible'
@@ -141,13 +144,21 @@ export default function Sidebar({
           className={getRowClass(activePhase === 'profile')}
           onClick={onProfileClick}
         >
-          <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 border border-primary/10 shadow-sm shadow-primary/5">
-            <User className="w-4 h-4 text-primary" />
+          <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 border border-primary/10 shadow-sm shadow-primary/5 overflow-hidden">
+            {user?.image ? (
+              <Image src={user.image} alt="Avatar" width={32} height={32} className="w-full h-full object-cover" />
+            ) : (
+              <User className="w-4 h-4 text-primary" />
+            )}
           </div>
           <div className={`flex-1 text-left ${labelClass}`}>
             <div>
-              <p className="text-[11px] font-bold leading-none tracking-tight">HARSH UPPAL</p>
-              <p className="text-[9px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold">Pro Account</p>
+              <p className="text-[11px] font-bold leading-none tracking-tight truncate max-w-[120px]">
+                {user?.name?.toUpperCase() || 'ANONYMOUS'}
+              </p>
+              <p className="text-[9px] text-muted-foreground mt-0.5 uppercase tracking-widest font-bold truncate max-w-[120px]">
+                {user?.email || 'FREE ACCOUNT'}
+              </p>
             </div>
           </div>
         </button>

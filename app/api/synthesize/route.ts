@@ -1,20 +1,49 @@
 // app/api/synthesize/route.ts
 // ─── Judge model: scores all 4 responses + synthesizes best answer ─
 
-import { OpenRouter } from "@openrouter/sdk";
 import { NextRequest, NextResponse } from "next/server";
-import type {
-  ChartDataPoint,
-  ModelResponse,
-  ScoredResponse,
-  SynthesisResult,
-  SynthesizeRequest,
-  TaskProfile,
-} from "@/lib/types";
+
+interface ChartDataPoint {
+  model: string;
+  accuracy: number;
+  reasoning: number;
+  coherence: number;
+  grounding: number;
+  latency: number;
+  overall: number;
+}
+
+interface ModelResponse {
+  modelId: string;
+  content: string;
+  tokensUsed: number;
+  latencyMs: number;
+  error?: string;
+}
+
+interface ScoredResponse extends ModelResponse {
+  scores: { accuracy: number; reasoning: number; coherence: number; grounding: number; hallucination: number };
+  overallScore: number;
+}
+
+interface SynthesizeRequest {
+  prompt: string;
+  taskProfile: string;
+  responses: ModelResponse[];
+}
+
+interface SynthesisResult {
+  scoredResponses: ScoredResponse[];
+  fusedAnswer: string;
+  consensus: number;
+  variance: number;
+  overallQuality: number;
+  chartData: ChartDataPoint[];
+}
 
 // ─── Score weights per task profile ──────────────────────────────
 const TASK_WEIGHTS: Record<
-  TaskProfile,
+  string,
   Record<string, number>
 > = {
   general:   { accuracy: 0.3, reasoning: 0.2, coherence: 0.25, grounding: 0.15, hallucination: 0.1 },
@@ -60,7 +89,7 @@ export async function POST(req: NextRequest) {
           overallScore: 0,
         };
       }
-      const weights = TASK_WEIGHTS[taskProfile];
+      const weights = TASK_WEIGHTS[taskProfile] || TASK_WEIGHTS.general;
       const overallScore = Math.round(
         scored.accuracy * weights.accuracy +
         scored.reasoning * weights.reasoning +
@@ -131,13 +160,10 @@ interface JudgeOutput {
 
 async function callJudge(
   prompt: string,
-  taskProfile: TaskProfile,
+  taskProfile: string,
   responses: ModelResponse[],
   apiKey: string
 ): Promise<JudgeOutput> {
-  const openrouter = new OpenRouter({
-    apiKey: apiKey,
-  });
   const responseBlock = responses
     .map((r) => `### ${r.modelId}\n${r.content.slice(0, 400)}`)
     .join("\n\n");
@@ -172,33 +198,53 @@ Return ONLY valid JSON — no markdown fences, no preamble:
   "fusedAnswer": "..."
 }`;
 
-  const response = await openrouter.chat.send({
-    chatRequest: {
-      model: "openai/gpt-4o",
-      maxTokens: 500,
-      messages: [{ role: "user", content: judgePrompt }],
-    },
-  });
-
-  const text = response.choices[0]?.message?.content ?? "{}";
-  
   try {
-    // Strip markdown code blocks if the model included them (e.g. ```json ... ```)
-    const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
-    return JSON.parse(cleaned) as JudgeOutput;
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://fusion.ai',
+        'X-Title': 'Fusion AI',
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-4o',
+        max_tokens: 500,
+        messages: [{ role: 'user', content: judgePrompt }],
+      }),
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw new Error(`OpenRouter API failed: ${response.status} ${errorText}`)
+    }
+
+    const data = await response.json()
+    const text = data.choices[0]?.message?.content ?? "{}"
+    
+    try {
+      // Strip markdown code blocks if the model included them (e.g. ```json ... ```)
+      const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
+      return JSON.parse(cleaned) as JudgeOutput;
+    } catch (err) {
+      console.error("Judge JSON parse error. Raw text:", text);
+      throw new Error("Judge returned invalid JSON formatting.");
+    }
   } catch (err) {
-    console.error("Judge JSON parse error. Raw text:", text);
-    throw new Error("Judge returned invalid JSON formatting.");
+    throw err instanceof Error ? err : new Error("Unknown error in callJudge");
   }
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────
+// Model ID to display name mapping - should match the models defined in the system
+const MODEL_DISPLAY_NAMES: Record<string, string> = {
+  'openai/gpt-4o': 'GPT-4o',
+  'openai/gpt-4-turbo': 'GPT-4 Turbo',
+  'anthropic/claude-opus-4': 'Claude Opus 4',
+  'google/gemini-2.5-pro': 'Gemini 2.5 Pro',
+  'meta-llama/llama-3.1-70b-instruct': 'Llama 3.1 70B',
+};
+
 function modelLabel(modelId: string): string {
-  const labels: Record<string, string> = {
-    "gpt-4o": "GPT-4o",
-    "claude-3-5-sonnet": "Claude",
-    "gemini-2-5-pro": "Gemini",
-    "llama-3": "Llama 3",
-  };
-  return labels[modelId] ?? modelId;
+  return MODEL_DISPLAY_NAMES[modelId] ?? modelId;
 }

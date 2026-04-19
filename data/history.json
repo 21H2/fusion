@@ -1,6 +1,2151 @@
 {
   "items": [
     {
+      "id": "1776573485763-gpg53m",
+      "createdAt": "2026-04-19T04:38:05.763Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "Claude Opus 4",
+      "confidence": 91,
+      "synthesizedAnswer": "Hello! How can I help you today?",
+      "ranking": [
+        {
+          "modelKey": "claude",
+          "model": "Claude Opus 4",
+          "overall": 69,
+          "grounding": 50,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 87
+        },
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4 Turbo",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 96
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 96
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3.1 70B",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 96
+        }
+      ],
+      "responses": {
+        "gpt4": "Hello! How can I assist you today?",
+        "claude": "Error 402: {\"modelId\":\"anthropic/claude-opus-4\",\"content\":\"This request requires more credits, or fewer max_tokens. You requested up to 512 tokens, but can only afford 475. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\",\"tokensUsed\":0,\"latencyMs\":37,\"error\":\"This request requires more credits, or fewer max_tokens. You requested up to 512 tokens, but can only afford 475. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Hello. How can I help you?",
+        "llama": "Hello. How can I assist you today?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 96,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "claude": {
+          "accuracy": 62,
+          "reasoning": 76,
+          "coherence": 69,
+          "grounding": 50,
+          "hallucination_risk": "low",
+          "consensus_score": 87,
+          "key_claims": [
+            "Error 402: {\"modelId\":\"anthropic/claude-opus-4\",\"content\":\"This request requires"
+          ],
+          "_overall": 69
+        },
+        "gemini": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 60,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 96,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "llama": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 96,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 651,
+        "totalLatencyMs": 10370,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 56,
+            "latencyMs": 2225,
+            "provider": "groq",
+            "source": "api"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 131,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 534,
+            "latencyMs": 6238,
+            "provider": "groq",
+            "source": "api"
+          },
+          "llama": {
+            "tokensUsed": 61,
+            "latencyMs": 1776,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776573263145-x68xea",
+      "createdAt": "2026-04-19T04:34:23.146Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "Claude Opus 4",
+      "confidence": 91,
+      "synthesizedAnswer": "Hello! How can I help you today?",
+      "ranking": [
+        {
+          "modelKey": "claude",
+          "model": "Claude Opus 4",
+          "overall": 69,
+          "grounding": 50,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 87
+        },
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4 Turbo",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 96
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 96
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3.1 70B",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 96
+        }
+      ],
+      "responses": {
+        "gpt4": "Hello! How can I assist you today?",
+        "claude": "Error 402: {\"modelId\":\"anthropic/claude-opus-4\",\"content\":\"This request requires more credits, or fewer max_tokens. You requested up to 640 tokens, but can only afford 533. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\",\"tokensUsed\":0,\"latencyMs\":41,\"error\":\"This request requires more credits, or fewer max_tokens. You requested up to 640 tokens, but can only afford 533. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Hello. How can I help you?",
+        "llama": "Hello. How can I assist you today?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 96,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "claude": {
+          "accuracy": 62,
+          "reasoning": 76,
+          "coherence": 69,
+          "grounding": 50,
+          "hallucination_risk": "low",
+          "consensus_score": 87,
+          "key_claims": [
+            "Error 402: {\"modelId\":\"anthropic/claude-opus-4\",\"content\":\"This request requires"
+          ],
+          "_overall": 69
+        },
+        "gemini": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 60,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 96,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "llama": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 96,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 774,
+        "totalLatencyMs": 12776,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 56,
+            "latencyMs": 2003,
+            "provider": "groq",
+            "source": "api"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 237,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 657,
+            "latencyMs": 7851,
+            "provider": "groq",
+            "source": "api"
+          },
+          "llama": {
+            "tokensUsed": 61,
+            "latencyMs": 2685,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776573101578-ui254u",
+      "createdAt": "2026-04-19T04:31:41.578Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4 Turbo",
+      "confidence": 94,
+      "synthesizedAnswer": "Hello! How can I assist you today?",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4 Turbo",
+          "overall": 69,
+          "grounding": 50,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 91
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude Opus 4",
+          "overall": 69,
+          "grounding": 50,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 91
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 91
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3.1 70B",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 91
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 402: {\"modelId\":\"openai/gpt-4-turbo\",\"content\":\"This request requires more credits, or fewer max_tokens. You requested up to 640 tokens, but can only afford 634. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\",\"tokensUsed\":0,\"latencyMs\":31,\"error\":\"This request requires more credits, or fewer max_tokens. You requested up to 640 tokens, but can only afford 634. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 402: {\"modelId\":\"anthropic/claude-opus-4\",\"content\":\"This request requires more credits, or fewer max_tokens. You requested up to 640 tokens, but can only afford 253. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\",\"tokensUsed\":0,\"latencyMs\":36,\"error\":\"This request requires more credits, or fewer max_tokens. You requested up to 640 tokens, but can only afford 253. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Hello. Please provide your query.",
+        "llama": "Hello. How can I assist you today?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 62,
+          "reasoning": 76,
+          "coherence": 69,
+          "grounding": 50,
+          "hallucination_risk": "low",
+          "consensus_score": 91,
+          "key_claims": [
+            "Error 402: {\"modelId\":\"openai/gpt-4-turbo\",\"content\":\"This request requires more"
+          ],
+          "_overall": 69
+        },
+        "claude": {
+          "accuracy": 62,
+          "reasoning": 76,
+          "coherence": 69,
+          "grounding": 50,
+          "hallucination_risk": "low",
+          "consensus_score": 91,
+          "key_claims": [
+            "Error 402: {\"modelId\":\"anthropic/claude-opus-4\",\"content\":\"This request requires"
+          ],
+          "_overall": 69
+        },
+        "gemini": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 91,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "llama": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 91,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 716,
+        "totalLatencyMs": 12363,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 708,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 128,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 655,
+            "latencyMs": 7290,
+            "provider": "groq",
+            "source": "api"
+          },
+          "llama": {
+            "tokensUsed": 61,
+            "latencyMs": 4237,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776572717151-4coznw",
+      "createdAt": "2026-04-19T04:25:17.151Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4 Turbo",
+      "confidence": 89,
+      "synthesizedAnswer": "Hello. How can I assist you today?",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4 Turbo",
+          "overall": 79,
+          "grounding": 77,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 83
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude Opus",
+          "overall": 71,
+          "grounding": 74,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 95
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2 Pro",
+          "overall": 64,
+          "grounding": 49,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 94
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3.1 70B",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 84
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 500: {\"modelId\":\"openai/gpt-4-turbo\",\"content\":\"Error: OpenRouter API failed: 402 {\\\"error\\\":{\\\"message\\\":\\\"This request requires more credits, or fewer max_tokens. You requested up to 1024 tokens, but can only afford 663. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\\\",\\\"code\\\":402,\\\"metadata\\\":{\\\"provider_name\\\":null}},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\",\"tokensUsed\":0,\"latencyMs\":582,\"error\":\"OpenRouter API failed: 402 {\\\"error\\\":{\\\"message\\\":\\\"This request requires more credits, or fewer max_tokens. You requested up to 1024 tokens, but can only afford 663. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\\\",\\\"code\\\":402,\\\"metadata\\\":{\\\"provider_name\\\":null}},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 500: {\"modelId\":\"anthropic/claude-opus-4-1-20250805\",\"content\":\"Error: OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"anthropic/claude-opus-4-1-20250805 is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\",\"tokensUsed\":0,\"latencyMs\":337,\"error\":\"OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"anthropic/claude-opus-4-1-20250805 is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 500: {\"modelId\":\"google/gemini-2-pro-exp-02-05\",\"content\":\"Error: OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"google/gemini-2-pro-exp-02-05 is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\",\"tokensUsed\":0,\"latencyMs\":297,\"error\":\"OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"google/gemini-2-pro-exp-02-05 is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Hello. How can I assist you today?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 76,
+          "reasoning": 79,
+          "coherence": 75,
+          "grounding": 77,
+          "hallucination_risk": "low",
+          "consensus_score": 83,
+          "key_claims": [
+            "Error 500: {\"modelId\":\"openai/gpt-4-turbo\",\"content\":\"Error: OpenRouter API fail"
+          ],
+          "_overall": 79
+        },
+        "claude": {
+          "accuracy": 72,
+          "reasoning": 55,
+          "coherence": 69,
+          "grounding": 74,
+          "hallucination_risk": "low",
+          "consensus_score": 95,
+          "key_claims": [
+            "Error 500: {\"modelId\":\"anthropic/claude-opus-4-1-20250805\",\"content\":\"Error: Ope"
+          ],
+          "_overall": 71
+        },
+        "gemini": {
+          "accuracy": 61,
+          "reasoning": 55,
+          "coherence": 69,
+          "grounding": 49,
+          "hallucination_risk": "low",
+          "consensus_score": 94,
+          "key_claims": [
+            "Error 500: {\"modelId\":\"google/gemini-2-pro-exp-02-05\",\"content\":\"Error: OpenRout"
+          ],
+          "_overall": 64
+        },
+        "llama": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 84,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 61,
+        "totalLatencyMs": 3886,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 1422,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 523,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 411,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 61,
+            "latencyMs": 1530,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776572613851-ka6ofk",
+      "createdAt": "2026-04-19T04:23:33.851Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "Claude 3.5 Sonnet",
+      "confidence": 95,
+      "synthesizedAnswer": "Hello! How can I assist you today?",
+      "ranking": [
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 64,
+          "grounding": 49,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 97
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 64,
+          "grounding": 49,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 97
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3",
+          "overall": 64,
+          "grounding": 49,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 97
+        },
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 92
+        }
+      ],
+      "responses": {
+        "gpt4": "Hello! How can I assist you today?",
+        "claude": "Error 500: {\"modelId\":\"anthropic/claude-3.5-sonnet\",\"content\":\"Error: OpenRouter API failed: 404 {\\\"error\\\":{\\\"message\\\":\\\"No endpoints found for anthropic/claude-3.5-sonnet.\\\",\\\"code\\\":404},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\",\"tokensUsed\":0,\"latencyMs\":626,\"error\":\"OpenRouter API failed: 404 {\\\"error\\\":{\\\"message\\\":\\\"No endpoints found for anthropic/claude-3.5-sonnet.\\\",\\\"code\\\":404},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 500: {\"modelId\":\"google/gemini-1.5-pro\",\"content\":\"Error: OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"google/gemini-1.5-pro is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\",\"tokensUsed\":0,\"latencyMs\":459,\"error\":\"OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"google/gemini-1.5-pro is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Error 500: {\"modelId\":\"meta-llama/llama-3.3-70b-versatile\",\"content\":\"Error: OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"meta-llama/llama-3.3-70b-versatile is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\",\"tokensUsed\":0,\"latencyMs\":288,\"error\":\"OpenRouter API failed: 400 {\\\"error\\\":{\\\"message\\\":\\\"meta-llama/llama-3.3-70b-versatile is not a valid model ID\\\",\\\"code\\\":400},\\\"user_id\\\":\\\"user_3CYUTwGG50dKoEvoASPeOhFRyYI\\\"}\"}\n\n[Fallback mode] OpenRouter request failed or key missing."
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 92,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "claude": {
+          "accuracy": 61,
+          "reasoning": 55,
+          "coherence": 69,
+          "grounding": 49,
+          "hallucination_risk": "low",
+          "consensus_score": 97,
+          "key_claims": [
+            "Error 500: {\"modelId\":\"anthropic/claude-3"
+          ],
+          "_overall": 64
+        },
+        "gemini": {
+          "accuracy": 61,
+          "reasoning": 55,
+          "coherence": 68,
+          "grounding": 49,
+          "hallucination_risk": "low",
+          "consensus_score": 97,
+          "key_claims": [
+            "Error 500: {\"modelId\":\"google/gemini-1"
+          ],
+          "_overall": 64
+        },
+        "llama": {
+          "accuracy": 62,
+          "reasoning": 55,
+          "coherence": 69,
+          "grounding": 49,
+          "hallucination_risk": "low",
+          "consensus_score": 97,
+          "key_claims": [
+            "Error 500: {\"modelId\":\"meta-llama/llama-3"
+          ],
+          "_overall": 64
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 57,
+        "totalLatencyMs": 3380,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 57,
+            "latencyMs": 1129,
+            "provider": "groq",
+            "source": "api"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 885,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 600,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 0,
+            "latencyMs": 766,
+            "provider": "local-fallback",
+            "source": "fallback"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776572501410-xiddlq",
+      "createdAt": "2026-04-19T04:21:41.410Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "Claude 3.5 Sonnet",
+      "confidence": 98,
+      "synthesizedAnswer": "Hello! How can I assist you today?",
+      "ranking": [
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 97
+        }
+      ],
+      "responses": {
+        "gpt4": "Hello! How can I assist you today?",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing."
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 97,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 57,
+        "totalLatencyMs": 1632,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 57,
+            "latencyMs": 1131,
+            "provider": "groq",
+            "source": "api"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 250,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 114,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 0,
+            "latencyMs": 137,
+            "provider": "local-fallback",
+            "source": "fallback"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776572359182-68y5fz",
+      "createdAt": "2026-04-19T04:19:19.182Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "Claude 3.5 Sonnet",
+      "confidence": 98,
+      "synthesizedAnswer": "Hello! How can I assist you today?",
+      "ranking": [
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 57,
+          "grounding": 45,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 97
+        }
+      ],
+      "responses": {
+        "gpt4": "Hello! How can I assist you today?",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing."
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 55,
+          "reasoning": 50,
+          "coherence": 61,
+          "grounding": 45,
+          "hallucination_risk": "medium",
+          "consensus_score": 97,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 57
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 58,
+        "totalLatencyMs": 2424,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 58,
+            "latencyMs": 2178,
+            "provider": "groq",
+            "source": "api"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 82,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 88,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 0,
+            "latencyMs": 76,
+            "provider": "local-fallback",
+            "source": "fallback"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776572265346-i2ev2n",
+      "createdAt": "2026-04-19T04:17:45.346Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4o",
+      "confidence": 100,
+      "synthesizedAnswer": "Hello! Is there anything you'd like to know or discuss today?",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Hello! It seems like you're just saying hello. Is there something I can help you with or would you like to start a conversation?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 60
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 81,
+        "totalLatencyMs": 3722,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 1077,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 106,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 89,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 81,
+            "latencyMs": 2450,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776572052108-vwxtsv",
+      "createdAt": "2026-04-19T04:14:12.108Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4o",
+      "confidence": 100,
+      "synthesizedAnswer": "Hello! It looks like you wanted to say hi. Is there anything specific you would like to discuss or ask about?",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Hello! It seems like you're just saying hello. Is there something I can help you with or would you like to start a conversation?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: {\"error\":\"Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 60
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 81,
+        "totalLatencyMs": 2744,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 773,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 142,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 105,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 81,
+            "latencyMs": 1724,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776562534983-rtwd8o",
+      "createdAt": "2026-04-19T01:35:34.983Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4o",
+      "confidence": 99,
+      "synthesizedAnswer": "Hello! How can I assist you today? Do you have any questions or specific topics you're interested in discussing?",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3.1",
+          "overall": 58,
+          "grounding": 46,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 98
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "I'm here to help. What's your question or topic of interest?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 56,
+          "reasoning": 51,
+          "coherence": 61,
+          "grounding": 46,
+          "hallucination_risk": "medium",
+          "consensus_score": 98,
+          "key_claims": [
+            "I'm here to help"
+          ],
+          "_overall": 58
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 68,
+        "totalLatencyMs": 2737,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 240,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 1335,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 122,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 68,
+            "latencyMs": 1040,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776562483202-h8aao2",
+      "createdAt": "2026-04-19T01:34:43.202Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "jello",
+      "taskType": "general",
+      "topModel": "GPT-4o",
+      "confidence": 100,
+      "synthesizedAnswer": "Jell-O is a well-known brand of dessert that is created from a mixture of sugar, gelatin, and flavorings. It is commonly available in both powdered and cube forms and is popularly used to prepare a range of sweet dishes such as fruit salads, gelatin molds, and puddings.",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        },
+        {
+          "modelKey": "llama",
+          "model": "Llama 3.1",
+          "overall": 60,
+          "grounding": 47,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 100
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Jell-O is a brand of dessert made from sugar, gelatin, and flavorings. It is typically sold in powder or cube form and is used to make a variety of sweet dishes, such as salads, molds, and puddings."
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 57,
+          "reasoning": 52,
+          "coherence": 63,
+          "grounding": 47,
+          "hallucination_risk": "low",
+          "consensus_score": 100,
+          "key_claims": [
+            "Jell-O is a brand of dessert made from sugar, gelatin, and flavorings"
+          ],
+          "_overall": 60
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 102,
+        "totalLatencyMs": 2737,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 604,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 110,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 58,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 102,
+            "latencyMs": 1965,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776562362786-pvidcp",
+      "createdAt": "2026-04-19T01:32:42.786Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4o",
+      "confidence": 99,
+      "synthesizedAnswer": "Hello! I'm ready to assist you. What would you like to know or discuss today?",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "llama",
+          "model": "Ollama 3",
+          "overall": 58,
+          "grounding": 46,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 98
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "I'm ready to assist. What would you like to know or discuss?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 56,
+          "reasoning": 51,
+          "coherence": 61,
+          "grounding": 46,
+          "hallucination_risk": "medium",
+          "consensus_score": 98,
+          "key_claims": [
+            "I'm ready to assist"
+          ],
+          "_overall": 58
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 87,
+        "totalLatencyMs": 941,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 602,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 81,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 83,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 87,
+            "latencyMs": 175,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776562282697-pdt5ov",
+      "createdAt": "2026-04-19T01:31:22.697Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4o",
+      "confidence": 99,
+      "synthesizedAnswer": "Hello! I'm here to help you. If you have any questions or topics you'd like to discuss, feel free to ask!",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "llama",
+          "model": "Ollama 3",
+          "overall": 58,
+          "grounding": 46,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 98
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "Hello. I'm ready to assist. What's your question or topic of interest?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 56,
+          "reasoning": 51,
+          "coherence": 61,
+          "grounding": 46,
+          "hallucination_risk": "medium",
+          "consensus_score": 98,
+          "key_claims": [
+            "Hello"
+          ],
+          "_overall": 58
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 69,
+        "totalLatencyMs": 4404,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 2617,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 69,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 76,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 69,
+            "latencyMs": 1642,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776562227078-gxdf63",
+      "createdAt": "2026-04-19T01:30:27.078Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "GPT-4o",
+      "confidence": 99,
+      "synthesizedAnswer": "Hello! I'm here to help. Please feel free to ask any questions or let me know what topic you're interested in discussing.",
+      "ranking": [
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "llama",
+          "model": "Ollama 3",
+          "overall": 58,
+          "grounding": 46,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 98
+        }
+      ],
+      "responses": {
+        "gpt4": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Error 401: {\"error\":\"Unauthorized. Please sign in with Google.\"}\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "I'm a response model. I'm ready to assist. What's your question or topic you'd like to discuss?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "claude": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "gemini": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 99,
+          "key_claims": [
+            "Error 401: Unauthorized"
+          ],
+          "_overall": 60
+        },
+        "llama": {
+          "accuracy": 56,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "medium",
+          "consensus_score": 98,
+          "key_claims": [
+            "I'm a response model"
+          ],
+          "_overall": 58
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 76,
+        "totalLatencyMs": 3483,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 1527,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 60,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 69,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 76,
+            "latencyMs": 1827,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
+      "id": "1776562078134-25kp5p",
+      "createdAt": "2026-04-19T01:27:58.134Z",
+      "userEmail": "admin@fusion.ai",
+      "query": "hello",
+      "taskType": "general",
+      "topModel": "Ollama 3",
+      "confidence": 99,
+      "synthesizedAnswer": "Synthesis failed: Failed to parse URL from /api/synthesize",
+      "ranking": [
+        {
+          "modelKey": "llama",
+          "model": "Ollama 3",
+          "overall": 60,
+          "grounding": 46,
+          "hallucinationRisk": "low",
+          "biasScore": 0,
+          "consensus": 98
+        },
+        {
+          "modelKey": "gpt4",
+          "model": "GPT-4o",
+          "overall": 58,
+          "grounding": 46,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "claude",
+          "model": "Claude 3.5 Sonnet",
+          "overall": 58,
+          "grounding": 46,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 99
+        },
+        {
+          "modelKey": "gemini",
+          "model": "Gemini 2.5 Pro",
+          "overall": 58,
+          "grounding": 46,
+          "hallucinationRisk": "medium",
+          "biasScore": 0,
+          "consensus": 99
+        }
+      ],
+      "responses": {
+        "gpt4": "Failed to parse URL from /api/query\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "claude": "Failed to parse URL from /api/query\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "gemini": "Failed to parse URL from /api/query\n\n[Fallback mode] OpenRouter request failed or key missing.",
+        "llama": "I'm a text-based model. I can provide information and answer questions to the best of my ability. What would you like to know or discuss?"
+      },
+      "scores": {
+        "gpt4": {
+          "accuracy": 56,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "medium",
+          "consensus_score": 99,
+          "key_claims": [
+            "Failed to parse URL from /api/query\n\n[Fallback mode] OpenRouter request failed o"
+          ],
+          "_overall": 58
+        },
+        "claude": {
+          "accuracy": 56,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "medium",
+          "consensus_score": 99,
+          "key_claims": [
+            "Failed to parse URL from /api/query\n\n[Fallback mode] OpenRouter request failed o"
+          ],
+          "_overall": 58
+        },
+        "gemini": {
+          "accuracy": 56,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "medium",
+          "consensus_score": 99,
+          "key_claims": [
+            "Failed to parse URL from /api/query\n\n[Fallback mode] OpenRouter request failed o"
+          ],
+          "_overall": 58
+        },
+        "llama": {
+          "accuracy": 57,
+          "reasoning": 51,
+          "coherence": 62,
+          "grounding": 46,
+          "hallucination_risk": "low",
+          "consensus_score": 98,
+          "key_claims": [
+            "I'm a text-based model"
+          ],
+          "_overall": 60
+        }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 4,
+        "totalTokens": 82,
+        "totalLatencyMs": 2504,
+        "modelTelemetry": {
+          "gpt4": {
+            "tokensUsed": 0,
+            "latencyMs": 465,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "claude": {
+            "tokensUsed": 0,
+            "latencyMs": 78,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "gemini": {
+            "tokensUsed": 0,
+            "latencyMs": 23,
+            "provider": "local-fallback",
+            "source": "fallback"
+          },
+          "llama": {
+            "tokensUsed": 82,
+            "latencyMs": 1938,
+            "provider": "groq",
+            "source": "api"
+          }
+        }
+      }
+    },
+    {
       "id": "1776534134833-p4bwhm",
       "createdAt": "2026-04-18T17:42:14.833Z",
       "query": "asdoa",
@@ -95,6 +2240,17 @@
           ],
           "_overall": 61
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -192,6 +2348,17 @@
           ],
           "_overall": 61
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -289,6 +2456,17 @@
           ],
           "_overall": 61
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -386,6 +2564,17 @@
           ],
           "_overall": 61
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -483,6 +2672,17 @@
           ],
           "_overall": 61
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -580,6 +2780,17 @@
           ],
           "_overall": 61
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -677,6 +2888,17 @@
           ],
           "_overall": 61
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -766,6 +2988,17 @@
           ],
           "_overall": 59
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -855,6 +3088,17 @@
           ],
           "_overall": 59
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -944,6 +3188,17 @@
           ],
           "_overall": 59
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -1033,6 +3288,17 @@
           ],
           "_overall": 59
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     },
     {
@@ -1122,6 +3388,17 @@
           ],
           "_overall": 59
         }
+      },
+      "benchmark": {
+        "taskType": "general",
+        "evaluatedDimensions": [
+          "accuracy",
+          "reasoning",
+          "coherence",
+          "completeness",
+          "safety"
+        ],
+        "responseCount": 0
       }
     }
   ]

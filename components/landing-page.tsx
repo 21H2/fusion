@@ -141,10 +141,20 @@ export default function LandingPage({ onSubmit }: Props) {
             rows={3}
             className="w-full bg-transparent resize-none outline-none text-sm text-foreground placeholder:text-muted-foreground/40 leading-relaxed"
           />
-          <div className="flex items-center justify-between pt-3 border-t border-border/30 mt-1">
-            <span className="text-[10px] text-muted-foreground/40 font-medium">
-              Shift + Enter for new line
-            </span>
+          <div className="flex items-center justify-between pt-3 border-t border-border/30 mt-1 gap-4">
+            <div className="flex items-center gap-4">
+              <span className="text-[10px] text-muted-foreground/40 font-medium whitespace-nowrap">
+                Shift + Enter for new line
+              </span>
+              {!input.trim() && (
+                <button
+                  onClick={() => onSubmit('', 'general')}
+                  className="text-[10px] text-muted-foreground/60 hover:text-primary transition-colors font-bold uppercase tracking-widest"
+                >
+                  Skip to Dashboard
+                </button>
+              )}
+            </div>
             <button
               onClick={handleSubmit}
               disabled={!input.trim()}

@@ -8,19 +8,28 @@ export type TaskType = 'general' | 'coding' | 'research' | 'reasoning' | 'creati
 
 export type ModelKey = 'gpt4' | 'claude' | 'gemini' | 'llama'
 
+// ─── Helper to get base URL for server-side fetch calls ───────────
+function getBaseUrl(): string {
+  if (process.env.NEXTAUTH_URL) {
+    return process.env.NEXTAUTH_URL
+  }
+  // Fallback for development
+  return 'http://localhost:3000'
+}
+
 // Maps the UI's ModelKey to the OpenRouter model ID in the request body
 const MODEL_ID_MAP: Record<ModelKey, string> = {
-  gpt4:   'gpt-4o',
-  claude: 'anthropic/claude-sonnet-3.5',
-  gemini: 'gemini-2-5-pro',
-  llama:  'llama-3-8b',
+  gpt4:   'openai/gpt-4-turbo',
+  claude: 'anthropic/claude-opus-4',
+  gemini: 'google/gemini-2.5-pro',
+  llama:  'meta-llama/llama-3.1-70b-instruct',
 }
 
 export const MODEL_PERSONAS: Record<ModelKey, { name: string; description: string }> = {
-  gpt4:   { name: 'GPT-4o',           description: 'OpenAI flagship — strong reasoning & coding' },
-  claude: { name: 'Claude 3.5 Sonnet',  description: 'Anthropic — elite reasoning, peak world knowledge' },
-  gemini: { name: 'Gemini 2.5 Pro',    description: 'Google — multimodal powerhouse' },
-  llama:  { name: 'Ollama 3',          description: 'Local-first / Meta — fast & efficient' },
+  gpt4:   { name: 'GPT-4 Turbo',         description: 'OpenAI flagship — strong reasoning & coding' },
+  claude: { name: 'Claude Opus 4',       description: 'Anthropic — elite reasoning, peak world knowledge' },
+  gemini: { name: 'Gemini 2.5 Pro',      description: 'Google — multimodal powerhouse' },
+  llama:  { name: 'Llama 3.1 70B',       description: 'Meta — fast & efficient' },
 }
 
 // ─── Score shape per model ─────────────────────────────────────────
@@ -57,7 +66,8 @@ export const Engine = {
     taskType: TaskType
   ): Promise<string> {
     try {
-      const res = await fetch('/api/query', {
+      const baseUrl = getBaseUrl()
+      const res = await fetch(`${baseUrl}/api/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -145,7 +155,8 @@ export const Engine = {
     }))
 
     try {
-      const res = await fetch('/api/synthesize', {
+      const baseUrl = getBaseUrl()
+      const res = await fetch(`${baseUrl}/api/synthesize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, taskProfile: taskType, responses: modelResponses }),
@@ -200,7 +211,8 @@ export const Engine = {
     scores: ScoresByModel
   ): Promise<void> {
     try {
-      await fetch('/api/history', {
+      const baseUrl = getBaseUrl()
+      await fetch(`${baseUrl}/api/history`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -220,9 +232,11 @@ export const Engine = {
 
   async getHistory(limit = 20) {
     try {
-      const res = await fetch(`/api/history?limit=${limit}`)
+      const baseUrl = getBaseUrl()
+      const res = await fetch(`${baseUrl}/api/history?limit=${limit}`)
       if (!res.ok) return []
-      return await res.json()
+      const data = await res.json()
+      return data.items || []
     } catch (err) {
       console.error('Failed to fetch history:', err)
       return []

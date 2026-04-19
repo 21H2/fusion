@@ -111,7 +111,13 @@ export default function Home() {
 
   const runComparison = async (nextQuery: string, nextTaskType: TaskType) => {
     const trimmedQuery = nextQuery.trim()
-    if (!trimmedQuery || isRunning) return
+    if (isRunning) return
+
+    // If skip was requested (empty query), just show the dashboard
+    if (!trimmedQuery) {
+      setPhase('dashboard')
+      return
+    }
 
     if (!isAuthenticated) {
       setError('Sign in with Google to run comparisons.')
@@ -214,8 +220,8 @@ export default function Home() {
           }
         }
       }
-    } catch {
-      setError('Failed to run the comparison engine. Please try again.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to run the comparison engine. Please try again.')
     } finally {
       setIsRunning(false)
     }
@@ -224,11 +230,11 @@ export default function Home() {
   const restoreHistory = (entry: HistoryEntry) => {
     setPhase('dashboard')
     setQuery(entry.query)
-    setTaskType(entry.task_type)
-    setResponses(entry.responses)
+    setTaskType(entry.taskType)
+    setResponses(entry.responses || null)
     setScores(entry.scores)
-    setSynthesizedAnswer(entry.synthesized_answer)
-    setTopModel(entry.top_model)
+    setSynthesizedAnswer(entry.synthesizedAnswer)
+    setTopModel(entry.topModel)
     setConfidence(entry.confidence)
   }
 

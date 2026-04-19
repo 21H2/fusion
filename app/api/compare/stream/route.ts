@@ -116,32 +116,47 @@ export async function POST(request: Request) {
           })
         }
 
-        const typedResponses = responses as ResponsesByModel
+        const responsesMap = responses as ResponsesByModel
 
         const scores: Partial<ScoresByModel> = {}
         for (const modelKey of models) {
-          const score = await Engine.scoreResponse(modelKey, typedResponses[modelKey], query, taskType)
-          scores[modelKey] = score
-          push('model_score', {
-            modelKey,
-            modelName: MODEL_PERSONAS[modelKey].name,
-            score,
-          })
+          try {
+            const score = await Engine.scoreResponse(modelKey, responsesMap[modelKey] || '', query, taskType)
+            scores[modelKey] = score
+            push('model_score', {
+              modelKey,
+              modelName: MODEL_PERSONAS[modelKey].name,
+              score,
+            })
+          } catch (scoreErr) {
+            console.error(`[stream] scoring failed for ${modelKey}:`, scoreErr)
+            scores[modelKey] = {
+              accuracy: 0, reasoning: 0, coherence: 0, grounding: 0, 
+              hallucination_risk: 'high', consensus_score: 0, key_claims: []
+            }
+          }
         }
 
         const typedScores = scores as ScoresByModel
-        Engine.addConsensusScores(typedScores, typedResponses, taskType)
-        const synthesizedAnswer = await Engine.synthesize(query, typedResponses, typedScores, taskType)
+        let synthesizedAnswer = 'No synthesized answer could be generated.'
+        
+        try {
+          Engine.addConsensusScores(typedScores, responsesMap, taskType)
+          synthesizedAnswer = await Engine.synthesize(query, responsesMap, typedScores, taskType)
+        } catch (synthErr) {
+          console.error('[stream] synthesis failed:', synthErr)
+          synthesizedAnswer = `Synthesis failed: ${synthErr instanceof Error ? synthErr.message : 'Unknown error'}`
+        }
 
         const ranking = models
           .map((modelKey) => ({
             modelKey,
             model: MODEL_PERSONAS[modelKey].name,
-            overall: typedScores[modelKey]._overall || Engine.computeOverallScore(typedScores[modelKey], taskType),
-            grounding: typedScores[modelKey].grounding,
-            hallucinationRisk: typedScores[modelKey].hallucination_risk,
+            overall: typedScores[modelKey]?._overall || Engine.computeOverallScore(typedScores[modelKey], taskType),
+            grounding: typedScores[modelKey]?.grounding || 0,
+            hallucinationRisk: typedScores[modelKey]?.hallucination_risk || 'high',
             biasScore: 0,
-            consensus: typedScores[modelKey].consensus_score || 0,
+            consensus: typedScores[modelKey]?.consensus_score || 0,
           }))
           .sort((a, b) => b.overall - a.overall)
 
@@ -164,6 +179,7 @@ export async function POST(request: Request) {
           confidence,
           synthesizedAnswer,
           ranking,
+          responses: responsesMap,
           scores: typedScores,
           benchmark,
         })
@@ -186,7 +202,7 @@ export async function POST(request: Request) {
         push('final', {
           query,
           taskType,
-          responses: typedResponses,
+          responses: responsesMap,
           scores: typedScores,
           synthesizedAnswer,
           ranking,
@@ -207,7 +223,9 @@ export async function POST(request: Request) {
           },
         })
 
-        push('error', { message: 'SSE comparison pipeline failed unexpectedly.' })
+        push('error', { 
+          message: error instanceof Error ? error.message : 'SSE comparison pipeline failed unexpectedly.' 
+        })
         controller.close()
       }
     },

@@ -18,6 +18,7 @@ create table if not exists public.fusion_history (
   confidence double precision not null,
   synthesized_answer text not null,
   ranking jsonb not null,
+  responses jsonb not null,
   scores jsonb not null,
   benchmark jsonb not null
 );
