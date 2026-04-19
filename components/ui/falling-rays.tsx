@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
@@ -25,16 +25,20 @@ export default function FallingRays({
   trailLength = 400,
   className
 }: FallingRaysProps) {
-  const rays = useMemo(() => {
-    return Array.from({ length: rayCount }).map((_, i) => ({
+  const [rays, setRays] = useState<any[]>([])
+
+  useEffect(() => {
+    setRays(Array.from({ length: rayCount }).map((_, i) => ({
       id: i,
       x: Math.random() * 100, // percentage
       duration: pulseSpeed + Math.random() * 2,
       delay: Math.random() * 5,
       opacity: 0.1 + Math.random() * 0.4,
       width: rayWidth + Math.random() * 2
-    }))
+    })))
   }, [rayCount, pulseSpeed, rayWidth])
+
+  if (rays.length === 0) return null // Prevents hydration mismatch by not rendering rays on the server
 
   return (
     <div className={cn("absolute inset-0 overflow-hidden pointer-events-none", className)}>

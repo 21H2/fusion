@@ -9,6 +9,9 @@ import StatsPanel from '@/components/stats-panel'
 import RawResponses from '@/components/raw-responses'
 import LandingPage from '@/components/landing-page'
 import HistoryModal from '@/components/history-modal'
+import AILabPage from '@/components/ai-lab-page'
+import SettingsPage from '@/components/settings-page'
+import ProfilePage from '@/components/profile-page'
 import type { HistoryEntry } from '@/lib/server/history-db'
 import {
   Engine,
@@ -22,7 +25,7 @@ import {
 const MODEL_KEYS = Object.keys(MODEL_PERSONAS) as ModelKey[]
 
 export default function Home() {
-  const [phase, setPhase] = useState<'landing' | 'dashboard'>('landing')
+  const [phase, setPhase] = useState<'landing' | 'dashboard' | 'ailab' | 'settings' | 'profile'>('landing')
   const [query, setQuery] = useState('')
   const [taskType, setTaskType] = useState<TaskType>('general')
   const [responses, setResponses] = useState<ResponsesByModel | null>(null)
@@ -33,6 +36,15 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [historyOpen, setHistoryOpen] = useState(false)
+
+  const startNewResearch = () => {
+    setPhase('landing')
+    setQuery('')
+    setResponses(null)
+    setScores(null)
+    setSynthesizedAnswer('')
+    setError(null)
+  }
 
   const runComparison = async (nextQuery: string, nextTaskType: TaskType) => {
     const trimmedQuery = nextQuery.trim()
@@ -124,49 +136,65 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* ── Dashboard (always mounted, fades in behind landing) ── */}
+      {/* ── Main App Layout (always mounted, fades in behind landing) ── */}
       <motion.div
         className="h-screen flex overflow-hidden bg-background text-foreground"
         initial={{ opacity: 0 }}
-        animate={{ opacity: phase === 'dashboard' ? 1 : 0 }}
+        animate={{ opacity: phase !== 'landing' ? 1 : 0 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.15 }}
       >
-        <Sidebar onHistoryClick={() => setHistoryOpen(true)} />
+        <Sidebar 
+          onHistoryClick={() => setHistoryOpen(true)} 
+          onAILabClick={() => setPhase('ailab')}
+          onHomeClick={() => setPhase('dashboard')}
+          onNewClick={startNewResearch}
+          onSettingsClick={() => setPhase('settings')}
+          onProfileClick={() => setPhase('profile')}
+          activePhase={phase}
+        />
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header />
 
-          <div className="flex-1 flex overflow-hidden lg:flex-row flex-col">
-            {/* Left panel */}
-            <div className="w-full lg:w-[40%] flex flex-col border-r border-b lg:border-b-0 border-border/40 overflow-hidden bg-background">
-              <div className="flex-1 overflow-hidden">
-                <RawResponses
-                  responses={responses}
-                  scores={scores}
+          {phase === 'ailab' ? (
+            <AILabPage />
+          ) : phase === 'settings' ? (
+            <SettingsPage onProfileClick={() => setPhase('profile')} />
+          ) : phase === 'profile' ? (
+            <ProfilePage />
+          ) : (
+            <div className="flex-1 flex overflow-hidden lg:flex-row flex-col">
+              {/* Left panel */}
+              <div className="w-full lg:w-[40%] flex flex-col border-r border-b lg:border-b-0 border-border/40 overflow-hidden bg-background">
+                <div className="flex-1 overflow-hidden">
+                  <RawResponses
+                    responses={responses}
+                    scores={scores}
+                    taskType={taskType}
+                    isRunning={isRunning}
+                  />
+                </div>
+                <div className="flex-shrink-0 border-t border-border/40">
+                  <InputArea onRun={runComparison} isRunning={isRunning} />
+                </div>
+              </div>
+
+              {/* Right panel */}
+              <div className="w-full lg:w-[60%] flex flex-col overflow-hidden">
+                <StatsPanel
+                  query={query}
                   taskType={taskType}
+                  scores={scores}
+                  responses={responses}
+                  synthesizedAnswer={synthesizedAnswer}
+                  topModel={topModel}
+                  confidence={confidence}
+                  responseCount={responseCount}
                   isRunning={isRunning}
+                  error={error}
                 />
               </div>
-              <div className="flex-shrink-0 border-t border-border/40">
-                <InputArea onRun={runComparison} isRunning={isRunning} />
-              </div>
             </div>
-
-            {/* Right panel */}
-            <div className="w-full lg:w-[60%] flex flex-col overflow-hidden">
-              <StatsPanel
-                query={query}
-                taskType={taskType}
-                scores={scores}
-                responses={responses}
-                synthesizedAnswer={synthesizedAnswer}
-                topModel={topModel}
-                confidence={confidence}
-                responseCount={responseCount}
-                isRunning={isRunning}
-                error={error}
-              />
-            </div>
-          </div>
+          )}
         </div>
       </motion.div>
     </>
