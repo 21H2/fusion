@@ -54,9 +54,11 @@ export default function RootLayout({
           disableTransitionOnChange
           enableColorScheme={false}
         >
-          <TooltipProvider delayDuration={300}>
-            {children}
-          </TooltipProvider>
+          <AuthSessionProvider>
+            <TooltipProvider delayDuration={300}>
+              {children}
+            </TooltipProvider>
+          </AuthSessionProvider>
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
